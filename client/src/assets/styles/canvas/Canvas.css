@@ -1,0 +1,20 @@
+.outer-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f1f1f1;
+  overflow: hidden;
+  gap: 30px;
+}
+
+.sidebar-container {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  height: 460px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+}
