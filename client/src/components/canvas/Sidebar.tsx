@@ -2,6 +2,7 @@ import { handleRedo, handleUndo } from "../../utils/UndoAndRedo";
 import { SidebarProps } from "../../types/canvas/SidebarProps";
 import { useState } from "react";
 import { Button } from "../ui/Button";
+import { download } from "../../utils/Download";
 
 const colors = [
   {
@@ -79,7 +80,13 @@ export const Sidebar = (props: SidebarProps) => {
         icon="/images/undo.svg"
         btnText="Undo"
         onClick={() =>
-          handleUndo(props.lines, props.setLines, props.setStoreLastElements)
+          handleUndo(
+            props.lines,
+            props.setLines,
+            props.setStoreLastElements,
+            props.webSocket,
+            props.roomId
+          )
         }
       />
       <Button
@@ -88,9 +95,12 @@ export const Sidebar = (props: SidebarProps) => {
         btnText="Redo"
         onClick={() =>
           handleRedo(
+            props.lines,
             props.setLines,
             props.storeLastElements,
-            props.setStoreLastElements
+            props.setStoreLastElements,
+            props.webSocket,
+            props.roomId
           )
         }
         className="mt-3"
@@ -128,6 +138,7 @@ export const Sidebar = (props: SidebarProps) => {
         icon="/images/download.svg"
         btnText="Download"
         className="mt-4"
+        onClick={() => download(props.stageRef)}
       />
     </>
   );

@@ -3,7 +3,7 @@ import { ButtonProps } from "../../types/ui/ButtonProps";
 export const Button = (props: ButtonProps) => {
   return (
     <button
-      className={`btn ${props.variant} d-flex justify-content-center align-items-center flex-nowrap gap-2 ${props.className}`}
+      className={`btn ${props.variant} d-flex flex-row justify-content-center align-items-center flex-nowrap gap-2 ${props.className}`}
       onClick={props.onClick}
     >
       <img

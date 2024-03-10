@@ -1,9 +1,13 @@
-import { Canvas } from "./pages/Canvas/Canvas";
+import { CavasRoute } from "./routes/CavasRoute";
+import HomeRoute from "./routes/HomeRoute";
+import Navbar from "./components/ui/Navbar";
 
 function App() {
   return (
     <>
-      <Canvas />
+      <Navbar />
+      <CavasRoute />
+      <HomeRoute />
     </>
   );
 }

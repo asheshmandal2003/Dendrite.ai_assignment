@@ -10,26 +10,28 @@ export const handleMouseDownForDrawLine = (
 ) => {
   isDrawing.current = true;
   const pos = e.target.getStage().getPointerPosition();
-  setLines((prevlines: any) => [
-    ...prevlines,
-    { tool, color, size, points: [pos.x, pos.y] },
-  ]);
+  const lineDetails = { tool, color, size, points: [pos.x, pos.y] };
+  console.log(lineDetails);
+  setLines((prevlines: any) => [...prevlines, lineDetails]);
 };
 
 export const handleMouseMoveForDrawLine = (
   e: any,
   isDrawing: MutableRefObject<boolean>,
   lines: any,
-  setLines: Dispatch<SetStateAction<any>>
+  setLines: Dispatch<SetStateAction<any>>,
+  setPointer: Dispatch<SetStateAction<Object>>
 ) => {
   if (!isDrawing.current) {
     return;
   }
   const stage = e.target.getStage();
+  const len = lines.length;
   const point = stage.getPointerPosition();
-  let lastLine = lines[lines.length - 1];
+  setPointer({ x: point.x, y: point.y });
+  let lastLine = lines[len - 1];
   lastLine.points = lastLine.points.concat([point.x, point.y]);
-  lines.splice(lines.length - 1, 1, lastLine);
+  lines.splice(len - 1, 1, lastLine);
   setLines(lines.concat());
 };
 
