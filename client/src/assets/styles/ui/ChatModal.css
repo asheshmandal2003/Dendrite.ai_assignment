@@ -1,0 +1,19 @@
+.chat {
+  cursor: pointer;
+  width: 60px;
+  height: 60px;
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  background: #e0e0e0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.transparent-btn {
+  background: transparent;
+  outline: none;
+  border: none;
+}

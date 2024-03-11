@@ -25,4 +25,9 @@ io.on("connection", (socket) => {
       .to(data.roomId)
       .emit("redo-change", { id: data.id, changes: data.changes });
   });
+  socket.on("message", (data) => {
+    socket.broadcast
+      .to(data.roomId)
+      .emit("broadcast-message", { id: data.id, msg: data.msg });
+  });
 });

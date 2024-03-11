@@ -11,7 +11,6 @@ export const handleMouseDownForDrawLine = (
   isDrawing.current = true;
   const pos = e.target.getStage().getPointerPosition();
   const lineDetails = { tool, color, size, points: [pos.x, pos.y] };
-  console.log(lineDetails);
   setLines((prevlines: any) => [...prevlines, lineDetails]);
 };
 

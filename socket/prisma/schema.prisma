@@ -14,6 +14,8 @@ datasource db {
 }
 
 model Drawing {
-  id   Int    @id @default(autoincrement())
-  data String @default("")
+  id     Int      @id @default(autoincrement())
+  name   String   @default("Untitled Document")
+  data   String   @default("")
+  access String[] @default([])
 }

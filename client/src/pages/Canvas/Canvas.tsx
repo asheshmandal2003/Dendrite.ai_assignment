@@ -5,6 +5,7 @@ import "../../assets/styles/canvas/Canvas.css";
 import io, { Socket } from "socket.io-client";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import ChatModal from "../../components/ui/ChatModal.tsx";
 
 const INTERVAL = 60000;
 
@@ -21,6 +22,7 @@ export const Canvas = () => {
     return { x: 0, y: 0 };
   });
   const [loading, setLoading] = useState(() => true);
+  const [messages, setMessages] = useState<[null | Object]>(() => [null]);
   const { id } = useParams();
   const stageRef = useRef<any>(null);
 
@@ -43,7 +45,6 @@ export const Canvas = () => {
   async function saveChanges() {
     const data = new FormData();
     data.append("data", JSON.stringify(lines));
-    console.log(data);
     await axios
       .put(`http://localhost:8000/api/v1/whiteboard/${id}`, data, {
         headers: {
@@ -134,36 +135,46 @@ export const Canvas = () => {
   }, [lines]);
 
   return (
-    <div className="outer-container">
-      <div className="sidebar-container p-3">
-        <Sidebar
-          tool={tool}
-          color={color}
-          setColor={setColor}
-          setLines={setLines}
-          setTool={setTool}
-          setStoreLastElements={setStoreLastElements}
-          storeLastElements={storeLastElements}
-          lines={lines}
-          setSize={setSize}
-          webSocket={websocket}
-          roomId={Number(id)}
-          stageRef={stageRef}
-        />
+    <>
+      <div className="outer-container">
+        <div className="sidebar-container p-3">
+          <Sidebar
+            tool={tool}
+            color={color}
+            setColor={setColor}
+            setLines={setLines}
+            setTool={setTool}
+            setStoreLastElements={setStoreLastElements}
+            storeLastElements={storeLastElements}
+            lines={lines}
+            setSize={setSize}
+            webSocket={websocket}
+            roomId={Number(id)}
+            stageRef={stageRef}
+          />
+        </div>
+        <div className="canvas-container">
+          <CanvasLayout
+            loading={loading}
+            lines={lines}
+            setLines={setLines}
+            tool={tool}
+            color={color}
+            size={size}
+            pointer={pointer}
+            setPointer={setPointer}
+            stageRef={stageRef}
+          />
+        </div>
       </div>
-      <div className="canvas-container">
-        <CanvasLayout
-          loading={loading}
-          lines={lines}
-          setLines={setLines}
-          tool={tool}
-          color={color}
-          size={size}
-          pointer={pointer}
-          setPointer={setPointer}
-          stageRef={stageRef}
+      {websocket?.connected && (
+        <ChatModal
+          id={id}
+          messages={messages}
+          setMessages={setMessages}
+          websocket={websocket}
         />
-      </div>
-    </div>
+      )}
+    </>
   );
 };

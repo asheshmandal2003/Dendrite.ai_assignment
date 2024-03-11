@@ -2,13 +2,19 @@ import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
-export async function createWhiteboard(_req: Request, res: Response) {
+export async function createWhiteboard(req: Request, res: Response) {
   try {
-    const whiteboard = await prisma.drawing.create({});
-    console.log(whiteboard);
+    const { email } = req.body;
+    if (!email)
+      return res
+        .status(400)
+        .json({ msg: "Email is required to create a new whiteboard!" });
+    const whiteboard = await prisma.drawing.create({
+      data: { access: [email] },
+    });
     return res.status(200).json({ id: whiteboard.id });
-  } catch (err) {
-    return res.status(500).json({ msg: "Internal server error!" });
+  } catch (err: any) {
+    return res.status(500).json({ msg: err.message });
   } finally {
     await prisma.$disconnect();
   }
